@@ -27,3 +27,22 @@ server {
 - `npm -v`
 - `npm ls` to inspect current package/dependency versions
 * Compare the versions of your local modules with ones of your nginx
+
+## Wen you try to open your `subdomain` such as notes.heegu.net, it keeps redirecting to your `www`.
+- Please check your https(or certbot) setting in the conf file
+
+1. `cd /etc/nginx/sites-available`
+2. `sudo nano [yourappname]`
+3. At the very bottom of the conf file, It should look like this 
+```
+server {
+    if ($host = notes.heegu.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    server_name notes.heegu.net;
+    listen 80;
+    return 404; # managed by Certbot
+}
+```
+4. `sudo service nginx restart`
