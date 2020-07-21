@@ -28,7 +28,7 @@ server {
 - `npm ls` to inspect current package/dependency versions
 * Compare the versions of your local modules with ones of your nginx
 
-## Wen you try to open your `subdomain` such as notes.heegu.net, it keeps redirecting to your `www`.
+## When you try to open your `subdomain` such as notes.heegu.net, it keeps redirecting to your `www`.
 - Please check your https(or certbot) setting in the conf file
 
 1. `cd /etc/nginx/sites-available`
@@ -46,3 +46,19 @@ server {
 }
 ```
 4. `sudo service nginx restart`
+
+
+# When you're using socket.io and it has 'Error during WebSocket handshake: Unexpected response code: 400'
+- Please check your nginx setting and add this to your conf
+
+```
+        location /[your endpoint] {
+                proxy_pass http://[]your domain]:[your port];
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+        }
+```
+
+
